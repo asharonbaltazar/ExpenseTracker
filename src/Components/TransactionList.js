@@ -27,11 +27,7 @@ const TransactionList = () => {
         return search.map((transaction) => (
           <Transaction key={transaction.id} transaction={transaction} />
         ));
-      else
-        return (
-          "Sorry. Nothing matches that query." +
-          <i class="far fa-frown-open"></i>
-        );
+      else return "Sorry. Nothing matches that query.";
     }
     return transactions.map((transaction) => (
       <Transaction key={transaction.id} transaction={transaction} />
