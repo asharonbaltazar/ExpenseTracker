@@ -5,32 +5,37 @@ import { GlobalContext } from "../context/GlobalState";
 
 const TransactionList = () => {
   const { transactions } = useContext(GlobalContext);
-  const [search, showSearch] = useState(false);
+  const [searchButton, showSearchButton] = useState(false);
   const [query, setQuery] = useState("");
 
-  let filteredExpenses = (query) => {
+  let filterExpenses = (query) => {
     query = Array.from(query).reduce(
       (a, v, i) => `${a}[^${query.substr(i)}]*?${v}`,
       ""
     );
-    const regex = RegExp(query);
-    let result = transactions.filter((transaction) =>
+    const regex = RegExp(query, "i");
+    const result = transactions.filter((transaction) =>
       transaction.text.match(regex)
     );
     return result;
   };
 
-  const searchResults = () => {
-    if (search && query.length > 0) {
-      let search = filteredExpenses(query);
-      return search.map((transaction) => (
-        <Transaction key={transaction.id} transaction={transaction} />
-      ));
-    } else if (!search) {
-      return transactions.map((transaction) => (
-        <Transaction key={transaction.id} transaction={transaction} />
-      ));
+  const listDisplay = () => {
+    if (query) {
+      const search = filterExpenses(query);
+      if (search.length)
+        return search.map((transaction) => (
+          <Transaction key={transaction.id} transaction={transaction} />
+        ));
+      else
+        return (
+          "Sorry. Nothing matches that query." +
+          <i class="far fa-frown-open"></i>
+        );
     }
+    return transactions.map((transaction) => (
+      <Transaction key={transaction.id} transaction={transaction} />
+    ));
   };
 
   return (
@@ -38,13 +43,16 @@ const TransactionList = () => {
       <div className="history-search">
         <h3>History</h3>
         <Search
-          search={search}
+          search={searchButton}
           query={query}
           setQuery={setQuery}
-          filteredExpenses={filteredExpenses}
+          filterExpenses={filterExpenses}
         />
-        <button className="search-button" onClick={() => showSearch(!search)}>
-          {search ? (
+        <button
+          className="search-button"
+          onClick={() => showSearchButton(!searchButton)}
+        >
+          {searchButton ? (
             <i className="fas fa-times"></i>
           ) : (
             <i className="fas fa-search"></i>
@@ -53,7 +61,7 @@ const TransactionList = () => {
       </div>
 
       <ul className="list">
-        {transactions.length === 0 ? "You have no expenses." : searchResults()}
+        {transactions.length === 0 ? "You have no expenses." : listDisplay()}
       </ul>
     </>
   );

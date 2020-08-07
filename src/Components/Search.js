@@ -1,7 +1,7 @@
 import React from "react";
 import { Transition } from "react-spring/renderprops";
 
-const Search = ({ search, query, setQuery, filteredExpenses }) => {
+const Search = ({ search, query, setQuery, filterExpenses }) => {
   return (
     <Transition
       items={search}
@@ -20,7 +20,7 @@ const Search = ({ search, query, setQuery, filteredExpenses }) => {
                 value={query}
                 onChange={(e) => {
                   setQuery(e.target.value);
-                  filteredExpenses(e.target.value);
+                  filterExpenses(e.target.value);
                 }}
               />
             )
