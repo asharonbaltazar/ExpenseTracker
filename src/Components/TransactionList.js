@@ -22,7 +22,8 @@ const TransactionList = () => {
 
   const searchResults = () => {
     if (search && query.length > 0) {
-      return filteredExpenses.map((transaction) => (
+      let search = filteredExpenses(query);
+      return search.map((transaction) => (
         <Transaction key={transaction.id} transaction={transaction} />
       ));
     } else if (!search) {
