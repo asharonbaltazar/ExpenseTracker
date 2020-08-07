@@ -8,7 +8,7 @@ const TransactionList = () => {
   const [search, showSearch] = useState(false);
   const [query, setQuery] = useState("");
 
-  let filtered = (query) => {
+  let filteredExpenses = (query) => {
     query = Array.from(query).reduce(
       (a, v, i) => `${a}[^${query.substr(i)}]*?${v}`,
       ""
@@ -22,7 +22,7 @@ const TransactionList = () => {
 
   const searchResults = () => {
     if (search && query.length > 0) {
-      return filtered.map((transaction) => (
+      return filteredExpenses.map((transaction) => (
         <Transaction key={transaction.id} transaction={transaction} />
       ));
     } else if (!search) {
@@ -40,7 +40,7 @@ const TransactionList = () => {
           search={search}
           query={query}
           setQuery={setQuery}
-          filteredExpenses={filtered}
+          filteredExpenses={filteredExpenses}
         />
         <button className="search-button" onClick={() => showSearch(!search)}>
           {search ? (
