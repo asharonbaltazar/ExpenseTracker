@@ -8,7 +8,7 @@ const Search = ({ search, query, setQuery, filterExpenses }) => {
       config={{ mass: 1, tension: 500, friction: 18 }}
       from={{ transform: "translate3d(0,-10px,0)" }}
       enter={{ transform: "translate3d(0,0px,0)" }}
-      leave={{ transform: "translate3d(0,-5px,0)" }}
+      leave={{ transform: "translate3d(0,-10px,0)" }}
     >
       {(search) =>
         search

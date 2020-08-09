@@ -1,9 +1,7 @@
 import React from "react";
 import Header from "./Components/Header";
-import Balance from "./Components/Balance";
-import IncomeExpenses from "./Components/IncomeExpenses";
-import TransactionList from "./Components/TransactionList";
-import AddTransaction from "./Components/AddTransaction";
+import Overview from "./Components/Overview";
+import TransactionView from "./Components/TransactionView";
 import { GlobalProvider } from "./context/GlobalState";
 import "./App.css";
 
@@ -12,10 +10,8 @@ const App = () => {
     <GlobalProvider>
       <Header />
       <div className="container">
-        <Balance />
-        <IncomeExpenses />
-        <TransactionList />
-        <AddTransaction />
+        <Overview />
+        <TransactionView />
       </div>
     </GlobalProvider>
   );
