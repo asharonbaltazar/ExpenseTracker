@@ -30,19 +30,19 @@ const TransactionList = () => {
       const search = filterExpenses(query);
       if (search.length)
         return search.map((transaction) => (
-          <Transaction key={transaction.id} transaction={transaction} />
+          <Transaction key={transaction._id} transaction={transaction} />
         ));
       else return "Sorry. Nothing matches that query.";
     }
     return transactions.map((transaction) => (
-      <Transaction key={transaction.id} transaction={transaction} />
+      <Transaction key={transaction._id} transaction={transaction} />
     ));
   };
 
   return (
     <>
       <div className="history-search">
-        <h3>History</h3>
+        <h3 className="bold-title">History</h3>
         <Search
           search={searchButton}
           query={query}

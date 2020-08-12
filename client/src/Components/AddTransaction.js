@@ -25,13 +25,13 @@ const AddTransaction = () => {
 
   return (
     <>
-      <h3 className="h3">Add new transaction</h3>
+      <h3 className="bold-title">Add new transaction</h3>
       <form onSubmit={onSubmit}>
         <div className="form-control">
-          <label htmlFor="text">Text</label>
+          <label htmlFor="text">Name</label>
           <input
             type="text"
-            placeholder="Enter text..."
+            placeholder="Enter name..."
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
