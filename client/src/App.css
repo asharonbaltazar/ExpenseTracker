@@ -17,6 +17,7 @@ body {
   min-height: 100vh;
   margin: 0;
   font-family: "Lato", sans-serif;
+  position: relative;
 }
 
 .container {
@@ -109,7 +110,7 @@ h4 {
   height: 30px;
   width: calc(100% - 30px) !important;
   outline: none !important;
-  bottom: 5px;
+  bottom: 6px;
   background-color: #f7f7f7;
   position: absolute;
   border: 1px solid #9c88ff !important;
@@ -190,9 +191,11 @@ input[type="number"] {
 }
 
 .list {
+  height: 150px;
   list-style-type: none;
   padding: 0;
   margin-bottom: 40px;
+  overflow: auto;
 }
 
 .list li {
@@ -225,7 +228,7 @@ input[type="number"] {
   position: absolute;
   top: 50%;
   transform: translate(0%, -50%);
-  transition: 0.2s ease;
+  transition: 0.2s cubic-bezier(0.68, -0.55, 0.27, 1.55);
   opacity: 0;
 }
 
@@ -234,6 +237,16 @@ input[type="number"] {
   transition: 0.2s ease;
   transition-delay: 0.1s;
   opacity: 1;
+}
+
+.disable-scrollbars::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* Chrome/Safari/Webkit */
+}
+
+.disable-scrollbars {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
 }
 
 @media (max-width: 700px) {

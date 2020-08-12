@@ -17,6 +17,7 @@ export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
   // Actions
+  // Add transaction
   const getTransactions = async () => {
     try {
       const response = await axios.get("/transactions");
@@ -32,6 +33,8 @@ export const GlobalProvider = ({ children }) => {
       });
     }
   };
+
+  // Delete transaction
   const deleteTransaction = async (id) => {
     try {
       await axios.delete(`/transactions/${id}`);
