@@ -8,8 +8,8 @@ import "./App.css";
 const App = () => {
   return (
     <GlobalProvider>
-      <Header />
       <div className="container">
+        <Header />
         <Overview />
         <TransactionView />
       </div>

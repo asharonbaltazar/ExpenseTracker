@@ -11,9 +11,6 @@
 
 body {
   background-color: #f7f7f7;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   min-height: 100vh;
   margin: 0;
   font-family: "Lato", sans-serif;
@@ -22,19 +19,20 @@ body {
 
 .container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 5rem;
+  grid-template-columns: 1fr repeat(2, minmax(auto, 25em)) 1fr;
+  column-gap: 2rem;
 }
 
 .overview {
+  grid-column: 2/3;
   margin-top: 40px;
   overflow: auto;
 }
 
-h2 {
+h1 {
   letter-spacing: 1px;
   margin: 10px 0 0 0;
-  text-align: center;
+  grid-column: 2/3;
 }
 
 h3 {
@@ -191,7 +189,7 @@ input[type="number"] {
 }
 
 .list {
-  height: 150px;
+  height: 500px;
   list-style-type: none;
   padding: 0;
   margin-bottom: 40px;
@@ -206,7 +204,7 @@ input[type="number"] {
   justify-content: space-between;
   position: relative;
   padding: 10px;
-  margin: 12px 0 10px 0;
+  margin: 10px 0 12px 0;
   z-index: 0;
 }
 
@@ -219,14 +217,15 @@ input[type="number"] {
 }
 
 .date-span {
-  padding: 5px;
   position: sticky;
-  top: 2px;
+  top: 0px;
+  padding: 7px;
+  width: 25%;
   font-size: 13px;
   border-radius: 20px;
   color: white;
   background-color: #9c88ff;
-  z-index: 1;
+  z-index: 2;
 }
 
 .delete-btn {
@@ -239,9 +238,9 @@ input[type="number"] {
   padding: 2px 5px;
   position: absolute;
   top: 50%;
-  transform: translate(0%, -50%);
+  transform: translate(50%, -50%);
   transition: 0.2s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-  opacity: 0;
+  opacity: 1;
 }
 
 .list li:hover .delete-btn {

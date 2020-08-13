@@ -6,7 +6,6 @@ const TransactionView = () => {
   return (
     <div className="transaction-view">
       <TransactionList />
-      <AddTransaction />
     </div>
   );
 };

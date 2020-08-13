@@ -14,12 +14,26 @@ const TransactionList = () => {
     // eslint-disable-next-line
   }, []);
 
-  // Sort the transactions by dates
+  // Regex search functionality
+  let filterExpenses = (query) => {
+    query = Array.from(query).reduce(
+      (a, v, i) => `${a}[^${query.substr(i)}]*?${v}`,
+      ""
+    );
+    const regex = RegExp(query, "i");
+    const result = transactions.filter((transaction) =>
+      transaction.text.match(regex)
+    );
+    return result;
+  };
+
+  // Sort the transactions by descending dates
   transactions.sort((first, second) => {
     if (first.createdAt > second.createdAt) return -1;
     if (first.createdAt < second.createdAt) return 1;
     return 0;
   });
+  // Function to sort the dates by simple terms
   const sorter = (data) => {
     return data.reduce((dates, item) => {
       const createdAt = moment(item.createdAt).calendar(null, {
@@ -42,19 +56,6 @@ const TransactionList = () => {
 
   let output = sorter(transactions);
 
-  // Regex search functionality
-  let filterExpenses = (query) => {
-    query = Array.from(query).reduce(
-      (a, v, i) => `${a}[^${query.substr(i)}]*?${v}`,
-      ""
-    );
-    const regex = RegExp(query, "i");
-    const result = transactions.filter((transaction) =>
-      transaction.text.match(regex)
-    );
-    return result;
-  };
-
   // Display list
   const listDisplay = () => {
     if (query) {
@@ -66,7 +67,7 @@ const TransactionList = () => {
         // Render the search
         return Object.keys(search).map((date) => (
           <Fragment key={date}>
-            <span className="date-span">{date}</span>
+            <div className="date-span">{date}</div>
             {search[date].map((transaction) => (
               <Transaction key={transaction._id} transaction={transaction} />
             ))}
@@ -77,7 +78,7 @@ const TransactionList = () => {
     // Render the list in dates
     return Object.keys(output).map((date) => (
       <Fragment key={date}>
-        <span className="date-span">{date}</span>
+        <div className="date-span">{date}</div>
         {output[date].map((transaction) => (
           <Transaction key={transaction._id} transaction={transaction} />
         ))}
