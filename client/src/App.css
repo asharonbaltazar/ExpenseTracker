@@ -194,18 +194,40 @@ input[type="number"] {
   padding: 0;
   margin-bottom: 40px;
   overflow: auto;
+  position: relative;
 }
 
 .list li {
+  width: 85%;
   background-color: #fff;
   box-shadow: var(--box-shadow);
   color: #333;
   display: flex;
   justify-content: space-between;
-  position: relative;
   padding: 10px;
   margin: 10px 0 12px 0;
-  z-index: 0;
+  cursor: pointer;
+}
+
+.list-buttons {
+  position: absolute;
+  right: 0;
+  z-index: -1;
+  display: flex;
+}
+
+.list-buttons button {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin-left: 5px;
+  width: 20px;
+  color: white;
+  border: 0;
+  padding: 2px 0;
+  outline: none;
+  cursor: pointer;
 }
 
 .list li.plus {
@@ -227,7 +249,7 @@ input[type="number"] {
   background-color: #9c88ff;
   z-index: 2;
 }
-
+/* 
 .delete-btn {
   cursor: pointer;
   background-color: #e74c3c;
@@ -241,14 +263,7 @@ input[type="number"] {
   transform: translate(50%, -50%);
   transition: 0.2s cubic-bezier(0.68, -0.55, 0.27, 1.55);
   opacity: 1;
-}
-
-.list li:hover .delete-btn {
-  transform: translate(-150%, -50%);
-  transition: 0.2s ease;
-  transition-delay: 0.1s;
-  opacity: 1;
-}
+} */
 
 .disable-scrollbars::-webkit-scrollbar {
   width: 0px;
