@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, Fragment } from "react";
 import moment from "moment";
 import Transaction from "./Transaction";
 import Search from "./Search";
@@ -9,23 +9,40 @@ const TransactionList = () => {
   const [searchButton, showSearchButton] = useState(false);
   const [query, setQuery] = useState("");
 
-  const output = transactions.reduce((dates, item) => {
-    if (dates[item.createdAt]) {
-      dates[item.createdAt].push(item);
-    } else {
-      dates[item.createdAt] = [item];
-    }
-
-    return dates;
-  }, {});
-
-  console.log(output);
-
   useEffect(() => {
     getTransactions();
     // eslint-disable-next-line
   }, []);
 
+  // Sort the transactions by dates
+  transactions.sort((first, second) => {
+    if (first.createdAt > second.createdAt) return -1;
+    if (first.createdAt < second.createdAt) return 1;
+    return 0;
+  });
+  const sorter = (data) => {
+    return data.reduce((dates, item) => {
+      const createdAt = moment(item.createdAt).calendar(null, {
+        lastDay: "[Yesterday]",
+        sameDay: "[Today]",
+        nextDay: "[Tomorrow]",
+        lastWeek: "dddd",
+        nextWeek: "dddd",
+        sameElse: "L",
+      });
+
+      if (dates[createdAt]) {
+        dates[createdAt].push(item);
+      } else {
+        dates[createdAt] = [item];
+      }
+      return dates;
+    }, {});
+  };
+
+  let output = sorter(transactions);
+
+  // Regex search functionality
   let filterExpenses = (query) => {
     query = Array.from(query).reduce(
       (a, v, i) => `${a}[^${query.substr(i)}]*?${v}`,
@@ -38,24 +55,40 @@ const TransactionList = () => {
     return result;
   };
 
+  // Display list
   const listDisplay = () => {
     if (query) {
-      const search = filterExpenses(query);
-      if (search.length)
-        return search.map((transaction) => (
-          <Transaction key={transaction._id} transaction={transaction} />
+      // Get the regex value of the query
+      let search = filterExpenses(query);
+      if (search.length) {
+        // Run the query through the date sorter
+        search = sorter(search);
+        // Render the search
+        return Object.keys(search).map((date) => (
+          <Fragment key={date}>
+            <span className="date-span">{date}</span>
+            {search[date].map((transaction) => (
+              <Transaction key={transaction._id} transaction={transaction} />
+            ))}
+          </Fragment>
         ));
-      else return "Sorry. Nothing matches that query.";
+      } else return "Sorry. Nothing matches that query.";
     }
-    return transactions.map((transaction) => (
-      <Transaction key={transaction._id} transaction={transaction} />
+    // Render the list in dates
+    return Object.keys(output).map((date) => (
+      <Fragment key={date}>
+        <span className="date-span">{date}</span>
+        {output[date].map((transaction) => (
+          <Transaction key={transaction._id} transaction={transaction} />
+        ))}
+      </Fragment>
     ));
   };
 
   return (
     <>
       <div className="history-search">
-        <h3 className="bold-title">History</h3>
+        <h3 className="bold-title">{query ? query + "..." : "History"}</h3>
         <Search
           search={searchButton}
           query={query}

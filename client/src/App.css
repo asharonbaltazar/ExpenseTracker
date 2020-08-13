@@ -206,7 +206,8 @@ input[type="number"] {
   justify-content: space-between;
   position: relative;
   padding: 10px;
-  margin: 10px 0;
+  margin: 12px 0 10px 0;
+  z-index: 0;
 }
 
 .list li.plus {
@@ -215,6 +216,17 @@ input[type="number"] {
 
 .list li.minus {
   border-right: 5px solid #c0392b;
+}
+
+.date-span {
+  padding: 5px;
+  position: sticky;
+  top: 2px;
+  font-size: 13px;
+  border-radius: 20px;
+  color: white;
+  background-color: #9c88ff;
+  z-index: 1;
 }
 
 .delete-btn {
