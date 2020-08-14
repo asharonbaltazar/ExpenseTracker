@@ -43,6 +43,7 @@ const TransactionList = () => {
                 key={transaction._id}
                 transaction={transaction}
                 click={(id) => selectListItems(id)}
+                selectedItems={selectedItems}
               />
             ))}
           </Fragment>
@@ -58,6 +59,7 @@ const TransactionList = () => {
             key={transaction._id}
             transaction={transaction}
             click={(id) => selectListItems(id)}
+            selectedItems={selectedItems}
           />
         ))}
       </Fragment>
@@ -66,7 +68,12 @@ const TransactionList = () => {
 
   return (
     <>
-      <ActionPanel query={query} setQuery={setQuery} />
+      <ActionPanel
+        query={query}
+        setQuery={setQuery}
+        selectedItems={selectedItems}
+        clearSelections={() => setSelectedItems([])}
+      />
 
       <ul className="list disable-scrollbars">
         {transactions.length === 0
