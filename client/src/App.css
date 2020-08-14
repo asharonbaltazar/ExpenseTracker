@@ -198,7 +198,7 @@ input[type="number"] {
 }
 
 .list li {
-  width: 85%;
+  width: 100%;
   background-color: #fff;
   box-shadow: var(--box-shadow);
   color: #333;
@@ -209,7 +209,7 @@ input[type="number"] {
   cursor: pointer;
 }
 
-.list-buttons {
+/* .list-buttons {
   position: absolute;
   right: 0;
   z-index: -1;
@@ -228,7 +228,7 @@ input[type="number"] {
   padding: 2px 0;
   outline: none;
   cursor: pointer;
-}
+} */
 
 .list li.plus {
   border-right: 5px solid #2ecc71;

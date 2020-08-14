@@ -1,12 +1,12 @@
 import React, { useContext, useState, useEffect, Fragment } from "react";
-import moment from "moment";
+import { sorter, filterExpenses } from "../utils/format";
 import Transaction from "./Transaction";
-import Search from "./Search";
+import ActionPanel from "./ActionPanel";
 import { GlobalContext } from "../context/GlobalState";
 
 const TransactionList = () => {
   const { transactions, getTransactions } = useContext(GlobalContext);
-  const [searchButton, showSearchButton] = useState(false);
+  const [selectedItems, setSelectedItems] = useState([]);
   const [query, setQuery] = useState("");
 
   useEffect(() => {
@@ -14,53 +14,23 @@ const TransactionList = () => {
     // eslint-disable-next-line
   }, []);
 
-  // Regex search functionality
-  let filterExpenses = (query) => {
-    query = Array.from(query).reduce(
-      (a, v, i) => `${a}[^${query.substr(i)}]*?${v}`,
-      ""
-    );
-    const regex = RegExp(query, "i");
-    const result = transactions.filter((transaction) =>
-      transaction.text.match(regex)
-    );
-    return result;
-  };
-
-  // Sort the transactions by descending dates
-  transactions.sort((first, second) => {
-    if (first.createdAt > second.createdAt) return -1;
-    if (first.createdAt < second.createdAt) return 1;
-    return 0;
-  });
   // Function to sort the dates by simple terms
-  const sorter = (data) => {
-    return data.reduce((dates, item) => {
-      const createdAt = moment(item.createdAt).calendar(null, {
-        lastDay: "[Yesterday]",
-        sameDay: "[Today]",
-        nextDay: "[Tomorrow]",
-        lastWeek: "dddd",
-        nextWeek: "dddd",
-        sameElse: "L",
-      });
-
-      if (dates[createdAt]) {
-        dates[createdAt].push(item);
-      } else {
-        dates[createdAt] = [item];
-      }
-      return dates;
-    }, {});
-  };
-
   let output = sorter(transactions);
+
+  const selectListItems = (id) => {
+    if (!selectedItems.includes(id)) setSelectedItems([...selectedItems, id]);
+    if (selectedItems.includes(id)) {
+      setSelectedItems((elements) =>
+        elements.filter((element) => element !== id)
+      );
+    }
+  };
 
   // Display list
   const listDisplay = () => {
     if (query) {
       // Get the regex value of the query
-      let search = filterExpenses(query);
+      let search = filterExpenses(query, transactions);
       if (search.length) {
         // Run the query through the date sorter
         search = sorter(search);
@@ -69,7 +39,11 @@ const TransactionList = () => {
           <Fragment key={date}>
             <div className="date-span">{date}</div>
             {search[date].map((transaction) => (
-              <Transaction key={transaction._id} transaction={transaction} />
+              <Transaction
+                key={transaction._id}
+                transaction={transaction}
+                click={(id) => selectListItems(id)}
+              />
             ))}
           </Fragment>
         ));
@@ -80,7 +54,11 @@ const TransactionList = () => {
       <Fragment key={date}>
         <div className="date-span">{date}</div>
         {output[date].map((transaction) => (
-          <Transaction key={transaction._id} transaction={transaction} />
+          <Transaction
+            key={transaction._id}
+            transaction={transaction}
+            click={(id) => selectListItems(id)}
+          />
         ))}
       </Fragment>
     ));
@@ -88,28 +66,12 @@ const TransactionList = () => {
 
   return (
     <>
-      <div className="history-search">
-        <h3 className="bold-title">{query ? query + "..." : "History"}</h3>
-        <Search
-          search={searchButton}
-          query={query}
-          setQuery={setQuery}
-          filterExpenses={filterExpenses}
-        />
-        <button
-          className="search-button"
-          onClick={() => showSearchButton(!searchButton)}
-        >
-          {searchButton ? (
-            <i className="fas fa-times"></i>
-          ) : (
-            <i className="fas fa-search"></i>
-          )}
-        </button>
-      </div>
+      <ActionPanel query={query} setQuery={setQuery} />
 
       <ul className="list disable-scrollbars">
-        {transactions.length === 0 ? "You have no expenses." : listDisplay()}
+        {transactions.length === 0
+          ? "You have no expenses."
+          : listDisplay(query)}
       </ul>
     </>
   );
