@@ -290,7 +290,7 @@ input[type="number"] {
   .container {
     display: flex;
     flex-direction: column;
-    padding: 60px 60px 0 60px;
+    padding: 10px 40px 0 40px;
   }
 
   .date-span {
