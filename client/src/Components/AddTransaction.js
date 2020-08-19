@@ -14,6 +14,7 @@ const AddTransaction = () => {
       id: Math.floor(Math.random() * 100000),
       text,
       amount: +amount,
+      createdAt: Date(),
     };
 
     addTransaction(transaction);

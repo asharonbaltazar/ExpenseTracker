@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Baloo+Tamma+2:wght@400;700&display=swap");
 
 :root {
-  --box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  --box-shadow: 1px 2px rgba(0, 0, 0, 0.24);
   --primary-color: #9c88ff;
 }
 
@@ -12,7 +12,6 @@
 
 body {
   background-color: #f7f7f7;
-  min-height: 100vh;
   margin: 0;
   font-family: "Lato", sans-serif;
   position: relative;
@@ -20,26 +19,28 @@ body {
 
 .container {
   display: grid;
-  grid-template-columns: 1fr repeat(2, minmax(auto, 25em)) 1fr;
+  grid-template-columns: 1fr repeat(2, minmax(20em, 25em)) 1fr;
+  height: 100vh;
   column-gap: 2rem;
 }
 
 .overview {
   grid-column: 2/3;
   margin-top: 40px;
-  overflow: auto;
+  height: 350px;
 }
 
 h1 {
   letter-spacing: 1px;
-  margin: 10px 0 0 0;
+  margin: 0;
   grid-column: 2/3;
 }
 
 h3 {
+  height: 36px;
   border-bottom: 1px solid #bbb;
   padding-bottom: 5px;
-  margin: 40px 0 15px;
+  margin: 0;
 }
 
 h4 {
@@ -50,6 +51,15 @@ h4 {
 .bold-title {
   font-family: "Baloo Tamma 2";
   font-weight: bold;
+}
+
+.input-fields {
+  position: absolute;
+  top: 110%;
+  width: 100%;
+  background-color: #f7f7f7;
+  z-index: 10;
+  border-radius: 10px;
 }
 
 .form-control {
@@ -91,7 +101,7 @@ h4 {
   margin: 0;
 }
 
-.options-panel > div {
+.options-div {
   display: flex;
   justify-content: center;
 }
@@ -113,7 +123,7 @@ h4 {
   background-color: var(--primary-color);
 }
 
-.search-panel input {
+.search-panel-input {
   height: 30px;
   width: calc(100% - 30px) !important;
   outline: none !important;
@@ -181,7 +191,6 @@ input[type="number"] {
 .btn {
   cursor: pointer;
   background-color: var(--primary-color);
-  box-shadow: var(--box-shadow);
   color: #fff;
   border: 0;
   display: block;
@@ -198,7 +207,7 @@ input[type="number"] {
 }
 
 .list {
-  height: 500px;
+  height: 420px;
   list-style-type: none;
   padding: 0;
   margin-bottom: 40px;
@@ -209,13 +218,17 @@ input[type="number"] {
 .list li {
   width: 100%;
   background-color: #fff;
-  box-shadow: var(--box-shadow);
+  border-radius: 10px;
   color: #333;
   display: flex;
   justify-content: space-between;
   padding: 10px;
   margin: 10px 0 12px 0;
   cursor: pointer;
+}
+
+.list li:hover {
+  box-shadow: var(--box-shadow);
 }
 
 /* .list-buttons {
@@ -251,7 +264,7 @@ input[type="number"] {
   position: sticky;
   top: 0px;
   padding: 7px;
-  width: 25%;
+  width: 6rem;
   font-size: 13px;
   border-radius: 20px;
   color: white;
@@ -275,7 +288,13 @@ input[type="number"] {
 
 @media (max-width: 700px) {
   .container {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    padding: 60px 60px 0 60px;
+  }
+
+  .date-span {
+    width: 6rem;
   }
 
   .history-search {

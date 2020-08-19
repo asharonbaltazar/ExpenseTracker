@@ -11,7 +11,7 @@ const Balance = () => {
 
   return (
     <>
-      <h4 className="bold-title">Your Balance</h4>
+      <h3 className="bold-title">Your Balance</h3>
       <h1 className="bold-title">${numberWithCommas(total)}</h1>
     </>
   );

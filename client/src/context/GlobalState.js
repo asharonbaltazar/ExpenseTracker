@@ -5,6 +5,7 @@ import axios from "axios";
 // Initial state
 const initialState = {
   transactions: [],
+  clickedTransaction: null,
   error: null,
   loading: true,
 };
@@ -21,7 +22,6 @@ export const GlobalProvider = ({ children }) => {
   const getTransactions = async () => {
     try {
       const response = await axios.get("/transactions");
-
       dispatch({
         type: "GET_TRANSACTIONS",
         payload: response.data.data,
@@ -50,6 +50,7 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
+  // Add a transaction
   const addTransaction = async (transaction) => {
     const config = {
       headers: {
@@ -72,15 +73,55 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
+  // Update a transaction
+  const updateTransaction = async (transaction) => {
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      const response = await axios.put(
+        `/transactions/${transaction.id}`,
+        transaction,
+        config
+      );
+
+      getTransactions();
+
+      dispatch({ type: "UPDATE_TRANSACTION", payload: response.data });
+    } catch (error) {
+      dispatch({
+        type: "TRANSACTION_ERROR",
+        payload: error.response.data.error,
+      });
+    }
+  };
+
+  // Allowing a selected item to be accessed throughout the application
+  const selectingTransaction = (transaction) => {
+    dispatch({ type: "SELECTED_TRANSACTION", payload: transaction });
+  };
+
+  const setLoading = () => {
+    dispatch({
+      type: "SET_LOADING",
+    });
+  };
+
   return (
     <GlobalContext.Provider
       value={{
         transactions: state.transactions,
+        clickedTransaction: state.clickedTransaction,
         error: state.error,
         loading: state.loading,
         deleteTransaction,
         addTransaction,
         getTransactions,
+        updateTransaction,
+        selectingTransaction,
+        setLoading,
       }}
     >
       {children}

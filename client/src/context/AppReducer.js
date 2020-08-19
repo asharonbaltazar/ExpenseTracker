@@ -6,10 +6,10 @@ export default (state, action) => {
         loading: false,
         transactions: action.payload,
       };
-    case "GET_TRANSACTION_BY_DATE":
+    case "SELECTED_TRANSACTION":
       return {
         ...state,
-        transactionsByDate: action.payload,
+        clickedTransaction: action.payload,
       };
     case "DELETE_TRANSACTION":
       return {
@@ -24,10 +24,20 @@ export default (state, action) => {
         loading: true,
         transactions: [...state.transactions, action.payload],
       };
+    case "UPDATE_TRANSACTION":
+      return {
+        ...state,
+        loading: false,
+      };
     case "TRANSACTION_ERROR":
       return {
         ...state,
         error: action.payload,
+      };
+    case "SET_LOADING":
+      return {
+        ...state,
+        loading: true,
       };
     default:
       return state;

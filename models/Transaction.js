@@ -13,7 +13,7 @@ const TransactionSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: moment().format(),
+    default: Date(),
   },
 });
 

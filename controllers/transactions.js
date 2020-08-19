@@ -51,6 +51,40 @@ exports.addTransaction = async (request, response, next) => {
   }
 };
 
+// @desc    update a transaction
+// @route   POST /transactions/:id
+// @access  public
+exports.updateTransaction = async (request, response) => {
+  try {
+    const transaction = {
+      text: request.body.text,
+      amount: request.body.amount,
+    };
+
+    const updatedTransaction = await Transaction.updateOne(
+      { _id: request.params.id },
+      transaction
+    );
+
+    if (!updatedTransaction) {
+      return response.status(404).json({
+        success: false,
+        error: "No transaction found.",
+      });
+    }
+
+    return response.status(200).json({
+      success: true,
+      data: {},
+    });
+  } catch (error) {
+    return response.status(500).json({
+      success: false,
+      error: "Server Error",
+    });
+  }
+};
+
 // @desc    delete a transaction
 // @route   DELETE /transactions/:id
 // @access  public
