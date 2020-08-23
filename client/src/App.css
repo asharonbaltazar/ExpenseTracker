@@ -17,6 +17,63 @@ body {
   position: relative;
 }
 
+/* AUTH PAGES */
+
+.auth-pages {
+  color: white;
+  background-color: #765ef0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-welcome {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  grid-column: 2/3;
+}
+
+.auth-welcome h2 {
+  margin-top: 50px;
+}
+
+.auth-form {
+  display: flex;
+  align-items: center;
+}
+
+.auth-form form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  grid-column: 3/4;
+}
+
+.auth-form form button {
+  margin-top: 20px;
+}
+
+.navbar-links {
+  display: flex;
+  flex-direction: row-reverse;
+  margin: 16px 0 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navbar-links li {
+  margin: 0 0 0 10px;
+}
+
+.navbar-links a {
+  color: #7d7e7e;
+  text-decoration: none;
+}
+
+/* MAIN PAGES */
+
 .container {
   display: grid;
   grid-template-columns: 1fr repeat(2, minmax(20em, 25em)) 1fr;
@@ -81,6 +138,8 @@ h4 {
   padding-left: 25px;
   padding-right: 0;
 }
+
+/* OPTIONS & SEARCH PANEL */
 
 .search-panel,
 .options-panel {
@@ -165,18 +224,23 @@ h4 {
   color: #c0392b;
 }
 
+/* LABELS, INPUTS, LIST ITEMS, AND BUTTONS */
+
 label {
   display: inline-block;
   margin: 10px 0;
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="email"],
+input[type="password"] {
   border: 1px solid #dedede;
   border-radius: 2px;
   display: block;
   font-size: 16px;
   padding: 10px;
   width: 100%;
+  outline: none;
 }
 
 input[type="number"] {
@@ -230,27 +294,6 @@ input[type="number"] {
 .list li:hover {
   box-shadow: var(--box-shadow);
 }
-
-/* .list-buttons {
-  position: absolute;
-  right: 0;
-  z-index: -1;
-  display: flex;
-}
-
-.list-buttons button {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  margin-left: 5px;
-  width: 20px;
-  color: white;
-  border: 0;
-  padding: 2px 0;
-  outline: none;
-  cursor: pointer;
-} */
 
 .list li.plus {
   border-right: 5px solid #2ecc71;

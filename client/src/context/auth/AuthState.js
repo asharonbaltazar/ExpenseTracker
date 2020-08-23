@@ -5,8 +5,8 @@ import authReducer from "./authReducer";
 // Initial state for authentication
 const initialState = {
   token: localStorage.getItem("token"),
-  isAuth: null,
-  isLoading: true,
+  isAuth: true,
+  isLoading: false,
   user: true,
   error: null,
 };
@@ -17,13 +17,13 @@ export const AuthContext = createContext(initialState);
 export const AuthState = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  const login = () => {};
+  const login = async () => {};
 
-  const register = () => {};
+  const register = async () => {};
 
-  const loadUser = () => {};
+  const loadUser = async () => {};
 
-  const logout = () => {};
+  const logout = async () => {};
 
   return (
     <AuthContext.Provider
