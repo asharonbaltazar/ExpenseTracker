@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { numberWithCommas } from "../utils/format";
-import { GlobalContext } from "../context/GlobalState";
+import { GlobalContext } from "../context/transactions/TransactionState";
 import { motion } from "framer-motion";
 
 const Transaction = ({ transaction, click, selectedItems, transitionItem }) => {

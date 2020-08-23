@@ -1,13 +1,12 @@
 import React, { useState, useContext } from "react";
 import { motion } from "framer-motion";
-import { GlobalContext } from "../context/GlobalState";
+import { GlobalContext } from "../context/transactions/TransactionState";
 
 const InputField = ({ buttons, setButtons, clearSelections }) => {
   const {
     clickedTransaction,
     addTransaction,
     updateTransaction,
-    getTransactions,
     setLoading,
   } = useContext(GlobalContext);
 
@@ -19,7 +18,6 @@ const InputField = ({ buttons, setButtons, clearSelections }) => {
   );
 
   const onSubmit = (e) => {
-    console.log(text, amount);
     if (!amount.length || !text.length) return e.preventDefault();
 
     if (buttons === "add") {

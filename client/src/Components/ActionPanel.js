@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import InputField from "./InputField";
 import { motion, AnimatePresence } from "framer-motion";
-import { GlobalContext } from "../context/GlobalState";
+import { GlobalContext } from "../context/transactions/TransactionState";
 import Search from "./Search";
 
 const ActionPanel = ({ query, setQuery, selectedItems, clearSelections }) => {

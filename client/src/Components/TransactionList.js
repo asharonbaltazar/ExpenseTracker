@@ -4,7 +4,7 @@ import { sorter, filterExpenses } from "../utils/format";
 import DateSpan from "./DateSpan";
 import Transaction from "./Transaction";
 import ActionPanel from "./ActionPanel";
-import { GlobalContext } from "../context/GlobalState";
+import { GlobalContext } from "../context/transactions/TransactionState";
 
 const TransactionList = () => {
   const { transactions, getTransactions, loading } = useContext(GlobalContext);
