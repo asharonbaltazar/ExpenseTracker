@@ -1,5 +1,6 @@
 import React, { useReducer, createContext } from "react";
 import axios from "axios";
+import setAuthToken from "../../utils/setAuthToken";
 import authReducer from "./authReducer";
 
 // Initial state for authentication
@@ -17,13 +18,72 @@ export const AuthContext = createContext(initialState);
 export const AuthState = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  const login = async () => {};
+  const loadUser = async () => {
+    if (localStorage.token) setAuthToken(localStorage.token);
 
-  const register = async () => {};
+    try {
+      const response = await axios.get("/auth");
 
-  const loadUser = async () => {};
+      dispatch({
+        type: "USER_LOADED",
+        action: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: "AUTH_ERROR",
+      });
+    }
+  };
 
-  const logout = async () => {};
+  const login = async (form) => {
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+
+    try {
+      const response = await axios.get("/auth", form, config);
+
+      dispatch({
+        type: "LOGIN_SUCCESS",
+        payload: response.data,
+      });
+
+      loadUser();
+    } catch (error) {
+      dispatch({
+        type: "LOGIN_FAIL",
+        payload: error.response.data.msg,
+      });
+    }
+  };
+
+  const logout = () => dispatch({ type: "LOGOUT" });
+
+  const register = async (form) => {
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+
+    try {
+      const response = await axios.post("/users", form, config);
+
+      dispatch({
+        type: "REGISTER_SUCCESS",
+        payload: response.data,
+      });
+
+      loadUser();
+    } catch (error) {
+      dispatch({
+        type: "REGISTER_FAIL",
+        payload: error.response.data.msg,
+      });
+    }
+  };
 
   return (
     <AuthContext.Provider
@@ -33,6 +93,10 @@ export const AuthState = ({ children }) => {
         loading: state.loading,
         user: state.user,
         error: state.error,
+        loadUser,
+        login,
+        logout,
+        register,
       }}
     >
       {children}
