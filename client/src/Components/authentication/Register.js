@@ -1,33 +1,29 @@
-import React, { useState, useContext } from "react";
-import formValidator from "../../utils/formValidator";
+import React, { useContext } from "react";
+import { Formik, useField, Form } from "formik";
+import { ClipLoader } from "react-spinners";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import * as Yup from "yup";
 import { AuthContext } from "../../context/auth/AuthState";
+
+// Custom input
+const MyInput = ({ label, ...props }) => {
+  const [field, meta] = useField(props);
+
+  return (
+    <>
+      <label htmlFor={props.id || props.name}>{label}</label>
+      <input {...field} {...props} />
+      {meta.touched && meta.error ? <small>{meta.error}</small> : null}
+    </>
+  );
+};
 
 const Register = () => {
   // Authentication context for registering new user function
   const authContext = useContext(AuthContext);
 
-  // Form state
-  const [form, setForm] = useState({
-    username: "",
-    email: "",
-    password: "",
-    password2: "",
-  });
-  const { username, email, password, password2 } = form;
-  // Form errors state and styles
-  const [formErrors, setFormErrors] = useState({});
-  const inputBorder = { border: "1px red solid" };
-
-  // On change handler
-  const onChange = (e) => {
-    console.log(e.target.name);
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  // On submit handler
-  const onSubmit = () => {};
+  const { register, error } = authContext;
 
   return (
     <div className="auth-pages">
@@ -40,50 +36,70 @@ const Register = () => {
           <h2>First things first. Let's sign you up.</h2>
         </div>
         <div className="auth-form">
-          <form onSubmit={onSubmit}>
-            <label>Username: </label>
-            <input
-              type="text"
-              placeholder="Pick a unique username"
-              name="username"
-              value={username}
-              onChange={onChange}
-            />
-            <small>{formErrors["username"]}</small>
-            <label>Email address: </label>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              name="email"
-              value={email}
-              onChange={onChange}
-            />
-            <small>{formErrors["email"]}</small>
-            <label>Password: </label>
-            <input
-              type="password"
-              placeholder="Enter a unique password"
-              value={password}
-              onChange={onChange}
-            />
-            <small>{formErrors["password"]}</small>
-            <label>Confirm password: </label>
-            <input
-              type="password"
-              placeholder="Make sure it's the same password"
-              value={password2}
-              onChange={onChange}
-            />
-            <small>{formErrors["password2"]}</small>
-            <motion.button
-              className="btn"
-              type="submit"
-              whileHover={{ scale: 1.01 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Sign in
-            </motion.button>
-          </form>
+          <Formik
+            initialValues={{
+              username: "",
+              email: "",
+              password: "",
+              password2: "",
+            }}
+            validationSchema={Yup.object({
+              username: Yup.string()
+                .min(4, "Must be at least 4 characters.")
+                .max(15)
+                .required("A username is required"),
+              email: Yup.string()
+                .email("Invalid email address.")
+                .required("An email is required."),
+              password: Yup.string().required("A password is required."),
+              password2: Yup.string().oneOf(
+                [Yup.ref("password"), null],
+                "Passwords must match"
+              ),
+            })}
+            onSubmit={(submissionData, { setSubmitting }) => {
+              setTimeout(() => {
+                setSubmitting(true);
+                register(submissionData);
+              }, 3000);
+            }}
+          >
+            {(props) => (
+              <Form>
+                <MyInput
+                  label="Username: "
+                  name="username"
+                  type="text"
+                  placeholder="Pick a username"
+                />
+                <MyInput
+                  label="Email: "
+                  name="email"
+                  type="email"
+                  placeholder="Enter your email address"
+                />
+                <MyInput
+                  label="Password: "
+                  name="password"
+                  type="password"
+                  placeholder="Enter a unique password"
+                />
+                <MyInput
+                  label="Confirm password: "
+                  name="password2"
+                  type="password"
+                  placeholder="Make sure it's the same password"
+                />
+                <button className="btn" type="submit">
+                  {props.isSubmitting ? (
+                    <ClipLoader size={16} color={"color"} />
+                  ) : (
+                    "Submit"
+                  )}
+                </button>
+              </Form>
+            )}
+          </Formik>
           <div className="bottom-text">
             <h5>Already registered?</h5>
             <Link to="/login">Log in</Link>

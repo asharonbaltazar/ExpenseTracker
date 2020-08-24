@@ -251,15 +251,11 @@ label {
   margin: 10px 0 5px 0;
 }
 
-/* small {
-  visibility: hidden;
-} */
-
 input[type="text"],
 input[type="email"],
 input[type="password"] {
   border: 1px solid #dedede;
-  border-radius: 2px;
+  border-radius: 10px;
   display: block;
   font-size: 16px;
   padding: 10px;
@@ -269,11 +265,12 @@ input[type="password"] {
 
 input[type="number"] {
   border: 1px solid #dedede;
-  border-radius: 2px;
+  border-radius: 10px;
   display: block;
   font-size: 16px;
   padding: 10px 10px 10px 20px;
   width: 100%;
+  outline: none;
 }
 
 .btn {

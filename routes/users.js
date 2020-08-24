@@ -11,7 +11,7 @@ const User = require("../models/User");
 router.post(
   "/",
   [
-    check("name", "Name is required.").not().isEmpty(),
+    check("username", "Name is required.").not().isEmpty(),
     check("email", "Email is required.").isEmail(),
     check(
       "password",
@@ -24,18 +24,18 @@ router.post(
     if (!errors.isEmpty())
       return response.status(400).json({ errors: errors.array() });
 
-    const { name, email, password } = request.body;
+    const { username, email, password } = request.body;
 
     try {
       let user = await User.findOne({ email });
 
       // Deny request if user exists
       if (user)
-        return response.status(400).json({ msg: "User already exists." });
+        return response.status(400).json({ msg: "Email is already used." });
 
       // Create new user
       user = new User({
-        name,
+        username,
         email,
         password,
       });

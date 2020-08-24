@@ -1,24 +1,28 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../../context/auth/AuthState";
+import { Formik, Form, useField } from "formik";
+import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+
+// Custom input
+const MyInput = ({ label, ...props }) => {
+  const [field, meta] = useField(props);
+
+  return (
+    <>
+      <label htmlFor={props.id || props.name}>{label}</label>
+      <input {...field} {...props} />
+      {meta.touched && meta.error ? <small>{meta.error}</small> : null}
+    </>
+  );
+};
 
 const Login = () => {
   // Authentication context for logging in  user function
   const authContext = useContext(AuthContext);
 
-  // Form state
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
-  const { email, password } = form;
-
-  // On change handler
-  const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-
-  // On submit handler
-  const onSubmit = () => {};
+  const { login, error } = authContext;
 
   return (
     <div className="auth-pages">
@@ -31,33 +35,41 @@ const Login = () => {
           <h2>Welcome back. Let's get you signed in.</h2>
         </div>
         <div className="auth-form">
-          <form onSubmit={onSubmit}>
-            <label>Email address: </label>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              name="email"
-              value={email}
-              onChange={onChange}
-            />
-            <small>{}</small>
-            <label>Password: </label>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              name="email"
-              value={password}
-              onChange={onChange}
-            />
-            <motion.button
-              className="btn"
-              type="submit"
-              whileHover={{ scale: 1.01 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Sign in
-            </motion.button>
-          </form>
+          <Formik
+            initialValues={{
+              username: "",
+              email: "",
+              password: "",
+              password2: "",
+            }}
+            validationSchema={Yup.object({
+              email: Yup.string()
+                .email("Invalid email address.")
+                .required("An email is required."),
+              password: Yup.string().required("A password is required."),
+            })}
+            onSubmit={(submissionData, { setSubmitting }) => {
+              login(submissionData);
+            }}
+          >
+            {(props) => (
+              <Form>
+                <MyInput
+                  label="Email: "
+                  name="email"
+                  type="email"
+                  placeholder="Enter your email address"
+                />
+                <MyInput
+                  label="Password: "
+                  name="password"
+                  type="password"
+                  placeholder="Enter a unique password"
+                />
+                <button className="btn">Submit</button>
+              </Form>
+            )}
+          </Formik>
           <div className="bottom-text">
             <h5>Don't have an account?</h5>
             <Link to="/register">Register here</Link>
