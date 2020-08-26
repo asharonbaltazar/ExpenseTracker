@@ -1,4 +1,5 @@
-import React, { useState, useContext } from "react";
+import React, { useContext, useEffect } from "react";
+import { ClipLoader } from "react-spinners";
 import { AuthContext } from "../../context/auth/AuthState";
 import { Formik, Form, useField } from "formik";
 import * as Yup from "yup";
@@ -18,11 +19,20 @@ const MyInput = ({ label, ...props }) => {
   );
 };
 
-const Login = () => {
+const Login = (props) => {
   // Authentication context for logging in  user function
   const authContext = useContext(AuthContext);
+  const { login, error, isAuth } = authContext;
 
-  const { login, error } = authContext;
+  useEffect(
+    () => {
+      if (isAuth) {
+        props.history.push("/");
+      }
+    },
+    // eslint-disable-next-line
+    [error, isAuth, props.history]
+  );
 
   return (
     <div className="auth-pages">
@@ -49,7 +59,11 @@ const Login = () => {
               password: Yup.string().required("A password is required."),
             })}
             onSubmit={(submissionData, { setSubmitting }) => {
-              login(submissionData);
+              setTimeout(() => {
+                setSubmitting(true);
+                login(submissionData);
+              }, 1000);
+              setSubmitting(false);
             }}
           >
             {(props) => (
@@ -66,7 +80,13 @@ const Login = () => {
                   type="password"
                   placeholder="Enter a unique password"
                 />
-                <button className="btn">Submit</button>
+                <button type="submit" className="btn">
+                  {props.isSubmitting ? (
+                    <ClipLoader size={16} color={"color"} />
+                  ) : (
+                    "Submit"
+                  )}
+                </button>
               </Form>
             )}
           </Formik>

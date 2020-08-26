@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Formik, useField, Form } from "formik";
 import { ClipLoader } from "react-spinners";
 import { motion } from "framer-motion";
@@ -19,11 +19,21 @@ const MyInput = ({ label, ...props }) => {
   );
 };
 
-const Register = () => {
+const Register = (props) => {
   // Authentication context for registering new user function
   const authContext = useContext(AuthContext);
 
-  const { register, error } = authContext;
+  const { register, error, isAuth } = authContext;
+
+  useEffect(
+    () => {
+      if (isAuth) {
+        props.history.push("/");
+      }
+    },
+    // eslint-disable-next-line
+    [isAuth, props.history]
+  );
 
   return (
     <div className="auth-pages">
@@ -46,8 +56,7 @@ const Register = () => {
             validationSchema={Yup.object({
               username: Yup.string()
                 .min(4, "Must be at least 4 characters.")
-                .max(15)
-                .required("A username is required"),
+                .max(15),
               email: Yup.string()
                 .email("Invalid email address.")
                 .required("An email is required."),
@@ -61,7 +70,8 @@ const Register = () => {
               setTimeout(() => {
                 setSubmitting(true);
                 register(submissionData);
-              }, 3000);
+              }, 1000);
+              setSubmitting(false);
             }}
           >
             {(props) => (

@@ -6,9 +6,9 @@ import authReducer from "./authReducer";
 // Initial state for authentication
 const initialState = {
   token: localStorage.getItem("token"),
-  isAuth: true,
-  isLoading: false,
-  user: true,
+  isAuth: null,
+  isLoading: true,
+  user: null,
   error: null,
 };
 
