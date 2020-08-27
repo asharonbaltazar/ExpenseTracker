@@ -43,7 +43,7 @@ export const AuthState = ({ children }) => {
     };
 
     try {
-      const response = await axios.get("/auth", form, config);
+      const response = await axios.post("/auth", form, config);
 
       dispatch({
         type: "LOGIN_SUCCESS",

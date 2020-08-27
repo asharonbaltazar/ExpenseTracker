@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
-const moment = require("moment");
+const { compareSync } = require("bcrypt");
 
 const TransactionSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+  },
   text: {
     type: String,
     trim: true,
@@ -13,7 +16,7 @@ const TransactionSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date(),
+    default: Date.now,
   },
 });
 

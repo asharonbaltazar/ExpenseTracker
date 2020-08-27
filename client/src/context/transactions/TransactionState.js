@@ -99,6 +99,10 @@ export const GlobalProvider = ({ children }) => {
     dispatch({ type: "SELECTED_TRANSACTION", payload: transaction });
   };
 
+  const clearTransactions = () => {
+    dispatch({ type: "CLEAR_TRANSACTIONS" });
+  };
+
   const setLoading = () => {
     dispatch({
       type: "SET_LOADING",
@@ -118,6 +122,7 @@ export const GlobalProvider = ({ children }) => {
         updateTransaction,
         selectingTransaction,
         setLoading,
+        clearTransactions,
       }}
     >
       {children}

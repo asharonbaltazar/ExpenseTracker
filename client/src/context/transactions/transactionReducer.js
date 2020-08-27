@@ -34,6 +34,14 @@ export default (state, action) => {
         ...state,
         error: action.payload,
       };
+    case "CLEAR_TRANSACTIONS":
+      return {
+        ...state,
+        transactions: [],
+        clickedTransaction: null,
+        error: null,
+        loading: true,
+      };
     case "SET_LOADING":
       return {
         ...state,

@@ -71,7 +71,6 @@ const Register = (props) => {
                 setSubmitting(true);
                 register(submissionData);
               }, 1000);
-              setSubmitting(false);
             }}
           >
             {(props) => (

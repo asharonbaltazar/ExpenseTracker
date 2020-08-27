@@ -63,7 +63,6 @@ const Login = (props) => {
                 setSubmitting(true);
                 login(submissionData);
               }, 1000);
-              setSubmitting(false);
             }}
           >
             {(props) => (
@@ -78,7 +77,7 @@ const Login = (props) => {
                   label="Password: "
                   name="password"
                   type="password"
-                  placeholder="Enter a unique password"
+                  placeholder="Enter your password"
                 />
                 <button type="submit" className="btn">
                   {props.isSubmitting ? (
