@@ -26,7 +26,7 @@ export const AuthState = ({ children }) => {
 
       dispatch({
         type: "USER_LOADED",
-        action: response.data,
+        payload: response.data,
       });
     } catch (error) {
       dispatch({
@@ -91,7 +91,7 @@ export const AuthState = ({ children }) => {
         token: state.token,
         isAuth: state.isAuth,
         loading: state.loading,
-        user: state.user,
+        username: state.username,
         error: state.error,
         loadUser,
         login,

@@ -4,7 +4,6 @@ import { AuthContext } from "../../context/auth/AuthState";
 import { Formik, Form, useField } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 
 // Custom input
 const MyInput = ({ label, ...props }) => {
@@ -28,6 +27,9 @@ const Login = (props) => {
     () => {
       if (isAuth) {
         props.history.push("/");
+      }
+
+      if (error) {
       }
     },
     // eslint-disable-next-line

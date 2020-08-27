@@ -6,7 +6,10 @@ import Register from "./Components/authentication/Register";
 import PrivateRoute from "./Components/Routes/PrivateRoute";
 import { AuthState } from "./context/auth/AuthState";
 import { GlobalProvider } from "./context/transactions/TransactionState";
+import setAuthToken from "./utils/setAuthToken";
 import "./App.css";
+
+if (localStorage.token) setAuthToken(localStorage.token);
 
 const App = () => {
   return (

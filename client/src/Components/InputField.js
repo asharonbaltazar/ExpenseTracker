@@ -1,15 +1,11 @@
 import React, { useState, useContext } from "react";
-import moment from "moment";
 import { motion } from "framer-motion";
 import { GlobalContext } from "../context/transactions/TransactionState";
 
 const InputField = ({ buttons, setButtons, clearSelections }) => {
-  const {
-    clickedTransaction,
-    addTransaction,
-    updateTransaction,
-    setLoading,
-  } = useContext(GlobalContext);
+  const { clickedTransaction, addTransaction, updateTransaction } = useContext(
+    GlobalContext
+  );
 
   const [text, setText] = useState(
     buttons === "edit" ? clickedTransaction.text : ""

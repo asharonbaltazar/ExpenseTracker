@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Formik, useField, Form } from "formik";
 import { ClipLoader } from "react-spinners";
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { AuthContext } from "../../context/auth/AuthState";
@@ -54,9 +53,6 @@ const Register = (props) => {
               password2: "",
             }}
             validationSchema={Yup.object({
-              username: Yup.string()
-                .min(4, "Must be at least 4 characters.")
-                .max(15),
               email: Yup.string()
                 .email("Invalid email address.")
                 .required("An email is required."),
@@ -75,12 +71,6 @@ const Register = (props) => {
           >
             {(props) => (
               <Form>
-                <MyInput
-                  label="Username: "
-                  name="username"
-                  type="text"
-                  placeholder="Pick a username"
-                />
                 <MyInput
                   label="Email: "
                   name="email"
